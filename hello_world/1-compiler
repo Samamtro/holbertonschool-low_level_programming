@@ -1,2 +1,2 @@
 #!/bin/bash
-output="${CFILE%.c}.o"
+export CFILE=main.c
