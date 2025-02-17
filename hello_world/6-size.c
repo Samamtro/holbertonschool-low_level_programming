@@ -15,7 +15,5 @@ printf("long long: %zu octets\n", sizeof(long long));
 printf("float: %zu octets\n", sizeof(float));
 printf("double: %zu octets\n", sizeof(double));
 printf("long double: %zu octets\n", sizeof(long double));
-
 return (0);
-
 }
