@@ -6,11 +6,13 @@
  */
 int main(void)
 {
-printf("Taille des types de base en octets :\n");
-printf("char: %zu octets\n", size of a (char: 1 byte(s));
-printf("int: %zu octets\n", size of a (int: 4 byte(s));
-printf("long: %zu octets\n", size of a (long int: 8 byte(s));
-printf("long long: %zu octets\n", size of a (long long int: 8 byte(s));
-printf("float: %zu octets\n", size of a (float: 4 byte(s));
+
+printf("Size of a char: %lu byte(s)\n", sizeof(char));
+printf("Size of an int: %lu byte(s)\n", sizeof(int));
+printf("Size of a long int: %lu byte(s)\n", sizeof(long int));
+printf("Size of a long long int: %lu byte(s)\n", sizeof(long long int));
+printf("Size of a float: %lu byte(s)\n", sizeof(float));
+
 return (0);
+
 }
