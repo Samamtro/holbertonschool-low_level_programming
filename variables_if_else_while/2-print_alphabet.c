@@ -6,9 +6,7 @@
  */
 int main(void)
 {
-
 putchar('4' + 2); // Affiche '6'
 putchar('\n');    // Nouvelle ligne
-return (0)
-
+return (0);
 }
