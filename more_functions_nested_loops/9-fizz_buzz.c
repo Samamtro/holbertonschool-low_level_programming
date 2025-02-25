@@ -4,7 +4,7 @@
  * main - printf to 100
  *
  * Return: Always success
-*/
+ */
 int main(void)
 {
 	int x;
@@ -19,7 +19,8 @@ int main(void)
 			printf("Buzz");
 		else if (x % 3 == 0)
 			printf("Fizz ");
-		else printf("%d ", x);
+		else
+			printf("%d ", x);
 	}
 	printf("\n");
 
