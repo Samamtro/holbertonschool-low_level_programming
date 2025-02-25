@@ -1,8 +1,10 @@
-#include "main.h"
 #include <stdio.h>
+
 /**
- * Fizz_Buzz - printf to 100
- */
+ * main - printf to 100
+ *
+ * Return: Always success
+*/
 int main(void)
 {
 	int x;
