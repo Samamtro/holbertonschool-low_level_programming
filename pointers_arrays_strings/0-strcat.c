@@ -2,6 +2,7 @@
 #include <string.h>
 /**
  * _strcat - a function that concatenates two strings
+ * @dest: first paramer
  * @src: second paramer
  * Return: a string
  */
@@ -18,4 +19,3 @@ char *_strcat(char *dest, char *src)
 	}
 	return (dest);
 }
-
