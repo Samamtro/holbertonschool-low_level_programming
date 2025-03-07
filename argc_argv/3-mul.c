@@ -5,7 +5,6 @@
  * main - multiplie  two argument
  * @argc: this is the number to argument
  * @argv: This is the The table containing the argumen
- *
  * Return: always error, sucess 1
  */
 int main(int argc, char *argv[])
