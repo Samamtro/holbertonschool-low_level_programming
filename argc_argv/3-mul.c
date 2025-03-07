@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 /**
- * main - Multiplie deux nombres donnés en arguments
+ * main - Multiplie to number in arguments
  * @argc: this is the number to argument
  * @argv: This is the The table containing the argumen
  *
