@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 /**
- * main - multiplie  two argument to result
+ * main - multiplie  two argument 
  * @argc: this is the number to argument
  * @argv: This is the The table containing the argumen
- * @result: this have to multiple
  *
  * Return: always error, sucess 1
  */
