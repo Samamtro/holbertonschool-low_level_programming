@@ -11,15 +11,13 @@
 void *malloc_checked(unsigned int b)
 {
 	/* Déclaration d'un pointeur pour stocker l'adresse de la mémoire allouée */
-	void *ptr;
+	void *a;
 
 	/* Allocation de mémoire de `b` octets */
-	ptr = malloc(b);
-
+	a = malloc(b);
 	/* Vérifie si l'allocation a échoué */
-	if (ptr == NULL)
-		exit(98); /* Quitte le programme avec le code d'erreur 98 */
-
+	if (a == NULL)
+			exit(98); /* Quitte le programme avec le code d'erreur 98 */
 	/* Retourne le pointeur vers la mémoire allouée */
-	return (ptr);
+	return (a);
 }
