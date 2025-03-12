@@ -6,7 +6,7 @@
  * malloc_checked - a function that allocates memory using malloc
  * @b: the number of bytes to allocate
  *
- * Return: a pointer to the allocated memory
+ * Return: a pointer to the allocated memory, Else if return exit status 98
  */
 void *malloc_checked(unsigned int b)
 {
@@ -18,7 +18,6 @@ void *malloc_checked(unsigned int b)
 	/* Vérifie si l'allocation a échoué */
 	if (ptr == NULL)
 	{
-		free(ptr);
 		exit(98); /* Quitte le programme avec le code d'erreur 98 */
 	}
 	/* Retourne le pointeur vers la mémoire allouée */
