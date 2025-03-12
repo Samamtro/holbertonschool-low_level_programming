@@ -17,9 +17,7 @@ void *malloc_checked(unsigned int b)
 	ptr = malloc(b);
 	/* Vérifie si l'allocation a échoué */
 	if (ptr == NULL)
-	{
-		exit(98); /* Quitte le programme avec le code d'erreur 98 */
-	}
+			exit(98); /* Quitte le programme avec le code d'erreur 98 */
 	/* Retourne le pointeur vers la mémoire allouée */
 	return (ptr);
 }
