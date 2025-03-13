@@ -10,14 +10,20 @@
  */
 typedef struct dog
 {
-	char *name;
-	float age;
-	char *owner;
-} dog_t;
+	char *name;	/* Pointeur vers le nom du chien */
+	float age;	/* Âge du chien en années */
+	char *owner;	/* Pointeur vers le nom du propriétaire */
+} dog_t;	/* Définition d'un alias "dog_t" pour struct dog */
 /* Additional function prototypes */
+/* Déclarations des prototypes des fonctions associées */
+/* Fonction pour afficher un caractère */
 int _putchar(char c);
+/* Initialise une structure dog */
 void init_dog(struct dog *d, char *name, float age, char *owner);
+/* Affiche les informations d'un chien */
 void print_dog(struct dog *d);
+/* Alloue et initialise une nouvelle structure dog */
 dog_t *new_dog(char *name, float age, char *owner);
+/* Libère la mémoire allouée pour une structure dog */
 void free_dog(dog_t *d);
-#endif
+#endif	/* Fin de la directive de préprocesseur */
