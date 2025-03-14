@@ -1,10 +1,5 @@
-#include "dog.h"	/* Inclut le fichier d'en-tête qui contient la définition
-* de la structure `dog_t`
-*/
-#include <stdlib.h>	/* Inclut la bibliothèque standard qui permet d'utiliser
-* malloc et free
-*/
-
+#include "dog.h"
+#include <stdlib.h>
 
 /**
  * new_dog - creates a new dog
