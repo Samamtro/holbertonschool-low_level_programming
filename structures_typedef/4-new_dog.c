@@ -41,6 +41,7 @@ dog_t *new_dog(char *name, float age, char *owner)
 	{
 		free(p);
 		free(name);
+		free(owner);
 		return (NULL);
 	}
 	p->name = name;	/* Initialise le champ `name` de la structure `dog_t` */
