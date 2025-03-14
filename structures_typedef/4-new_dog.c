@@ -12,43 +12,40 @@
  */
 dog_t *new_dog(char *name, float age, char *owner)
 {
-	dog_t *p;
+	dog_t *newDog;
+	int lName, lOwner, i;
 
-	p = malloc(sizeof(dog_t));	/* Alloue de la mémoire pour un objet de type
-	* `dog_t`
-	*/
-	if (p == NULL)
+	newDog = malloc(sizeof(struct dog));
+	if (newDog == NULL)
+		return (NULL);
+
+	for (lName = 0; *(name + lName); lName++)
+		;
+	lName++;
+	for (lOwner = 0; *(owner + lOwner); lOwner++)
+		;
+	lOwner++;
+
+	newDog->name = malloc(lName * sizeof(char));
+	if (newDog->name == NULL)
 	{
-		return (NULL);	/* Si l'allocation échoue, retourne NULL */
-	}
-	if (name == NULL)
-	{
-		free(p);	/* Libère la mémoire allouée pour la structure dog_t */
-		free(owner); /* Libère la mémoire allouée pour le propriétaire
-		* (si elle était allouée)
-		*/
-		return (NULL);	/* Retourne NULL si le nom est NULL */
-	}
-	if (owner == 0)
-	{
-		free(p);	/* Libère la mémoire allouée pour la structure dog_t */
-		free(name);	/* Libère la mémoire allouée pour le nom du chien
-		* (si elle était allouée)
-		*/
-		return (NULL); /* Retourne NULL si le nom est NULL */
-	}
-	if (age == 0)
-	{
-		free(p);
-		free(name);
-		free(owner);
+		free(newDog);
 		return (NULL);
 	}
-	p->name = name;	/* Initialise le champ `name` de la structure `dog_t` */
-	p->owner = owner;	/* Initialise le champ `owner` de la structure `dog_t`
-	*/
-	p->age = age;	/* Initialise le champ `age` de la structure `dog_t` */
+	for (i = 0; i < lName; i++)
+		*(newDog->name + i) = *(name + i);
 
-	return (p);	/* Retourne le pointeur vers l'objet `dog_t` nouvellement créé.
-	*/
+	newDog->age = age;
+
+	newDog->owner = malloc(lOwner * sizeof(char));
+	if (newDog->owner == NULL)
+	{
+		free(newDog->name);
+		free(newDog);
+		return (NULL);
+	}
+	for (i = 0; i < lOwner; i++)
+	*(newDog->owner + i) = *(owner + i);
+
+	return (newDog);
 }
