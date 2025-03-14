@@ -21,10 +21,21 @@ dog_t *new_dog(char *name, float age, char *owner)
 	{
 		return (NULL);	/* Si l'allocation échoue, retourne NULL */
 	}
-	if (name == NULL || owner == NULL)
+	if (name == NULL)
 	{
-		free(p);
-		return (NULL);
+		free(p);	/* Libère la mémoire allouée pour la structure dog_t */
+		free(owner); /* Libère la mémoire allouée pour le propriétaire
+		* (si elle était allouée)
+		*/
+		return (NULL);	/* Retourne NULL si le nom est NULL */
+	}
+	if (owner == 0)
+	{
+		free(p);	/* Libère la mémoire allouée pour la structure dog_t */
+		free(name);	/* Libère la mémoire allouée pour le nom du chien
+		* (si elle était allouée)
+		*/
+		return (NULL); /* Retourne NULL si le nom est NULL */
 	}
 	p->name = name;	/* Initialise le champ `name` de la structure `dog_t` */
 	p->owner = owner;	/* Initialise le champ `owner` de la structure `dog_t`
