@@ -48,6 +48,7 @@ dog_t *new_dog(char *name, float age, char *owner)
 	p->owner = owner;	/* Initialise le champ `owner` de la structure `dog_t`
 	*/
 	p->age = age;	/* Initialise le champ `age` de la structure `dog_t` */
+
 	return (p);	/* Retourne le pointeur vers l'objet `dog_t` nouvellement créé.
 	*/
 }
