@@ -5,14 +5,15 @@
 * malloc et free
 */
 
+
 /**
- * new_dog - entry pointer
+ * new_dog - creates a new dog
  * new_dog - a function that creates a new dog
  * @name: the string from main, name to the pret
  * @age: the string from main, age to the pret
  * @owner: the string from main, owner to the pret
  *
- * Return: p
+ * Return: pointer to the new dog or NULL if an error occurs
  */
 dog_t *new_dog(char *name, float age, char *owner)
 {
