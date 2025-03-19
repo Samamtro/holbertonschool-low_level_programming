@@ -21,13 +21,16 @@ int (*get_op_func(char *s))(int, int)
 		{"*", op_mul},
 		{"/", op_div},
 		{"%", op_mod},
+		/* Marqueur de fin du tableau */
 		{NULL, NULL},
 	};
 	int i = 0;
 
+	/* Parcours du tableau jusqu'à trouver l'opérateur correspondant ou NULL */
 	while (ops[i].op != NULL && strcmp(ops[i].op, s) != 0)
 	{
 		i++;
 	}
+	/* Retourne la fonction associée à l'opérateur trouvé */
 	return (ops[i].f);
 }
