@@ -5,37 +5,22 @@
 /**
  * sum_them_all - a function that returns the sum of all its parameters
  * @n: this is number bof the arguments
- *
+ * @...: a variable number of paramters to calculate the sum of
+
  * Return: always 0
  */
 int sum_them_all(const unsigned int n, ...)
 {
-	unsigned int i;
-	int sum;
-	va_list list;
+	unsigned int i, sum = 0;
+	va_list ap;
 
-	if (n == 0)
-		return (0);
-
-	va_start(list, n);
+	va_start(ap, n);
 
 	for (i = 0; i < n; i++)
 	{
-		sum += va_arg(list, int);
+		sum += va_arg(ap, int);
 	}
-	va_end(list);
+	va_end(ap);
 
-		return (sum);
-}
-/**
- * main - Entry point of the program
- *
- * Return: Always 0 (Success)
- */
-int main(void)
-{
-	printf("Somme : %d\n", sum_them_all(3, 1, 2, 3));
-	printf("Somme : %d\n", sum_them_all(5, 10, 20, 30, 40, 50));
-	printf("Somme : %d\n", sum_them_all(0));
-	return (0);
+	return (sum);
 }
