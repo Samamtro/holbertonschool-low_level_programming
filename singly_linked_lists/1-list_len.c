@@ -11,6 +11,7 @@
 size_t list_len(const list_t *h)
 {
 	size_t count = 0; /* Initialisation du compteur */
+
 	while (h != NULL)	/* Tant qu'on n'a pas atteint la fin de la liste */
 	{
 		h = h->next;	/* passe au noeud suivant */
