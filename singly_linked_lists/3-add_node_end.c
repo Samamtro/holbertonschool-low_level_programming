@@ -22,14 +22,14 @@ list_t *add_node_end(list_t **head, const char *str)
 	/* on alloue de la memoire pour le nouveau noeud */
 	new_node = malloc(sizeof(list_t));
 	if (new_node == NULL)	/* Vérifie si l'allocation a échoué */
-		return (NULL); /* Retourne NULL si l'allocation échoue */
+		return (NULL);
 
 	/* on copie la chaine str dans le nouveau noeud */
 	new_node->str = strdup(str);	/* Copie la chaîne dans le nœud */
 	if (new_node->str == NULL)	/* Vérifie si la copie a échoué */
 	{
 		free(new_node);	/* Libère la mémoire du nœud */
-		return (NULL);	/* Retourne NULL si la copie échoue */
+		return (NULL);
 	}
 
 	new_node->len = len;	/* Initialise la longueur de la chaîne */
@@ -43,8 +43,7 @@ list_t *add_node_end(list_t **head, const char *str)
 
 	while (last->next != NULL) /* On parcourt jusqu'au dernier nœud */
 		last = last->next;	/* on passe au noeud suivant */
-
-	last->next = new_node; /* Le dernier nœud pointe vers le nouveau nœud */
+		last->next = new_node; /* Le dernier nœud pointe vers le nouveau nœud */
 
 	return (new_node); /* Retourne le nouveau nœud */
 }
