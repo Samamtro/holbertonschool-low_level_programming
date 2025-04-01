@@ -15,7 +15,7 @@ size_t dlistint_len(const dlistint_t *h)
 	while (h != NULL)	/* Parcourt la liste jusqu'à la fin (h devient NULL) */
 	{
 		count++;	/* Incrémente le compteur à chaque nœud */
-		h = h->next; /* on passe au noeud suivant */
+		h = h->next;/* on passe au noeud suivant */
 	}
 	return (count);	/* Retourne le nombre total de noeud */
 }
