@@ -1,5 +1,5 @@
-#ifndef LISTS_H	/* Vérife si LISTS_H n'a pas encore été défini */
-#define LISTS_H	/* Définit LISTS_H pour éviter les inclusion multiples */
+#ifndef LISTS_H
+#define LISTS_H
 
 
 #include <stdlib.h>	/* Inclusion de stdlib.h pour malloc(), free(), etc */
@@ -25,6 +25,5 @@ size_t print_list(const list_t *h);
 size_t list_len(const list_t *h);
 list_t *add_node(list_t **head, const char *str);
 list_t *add_node_end(list_t **head, const char *str);
-void free_list(list_t *head);
-void __attribute__((constructor)) premain();
-#endif /* LISTS_H */	/* Fin de la protection contre les inclusions multiples */
+
+#endif
