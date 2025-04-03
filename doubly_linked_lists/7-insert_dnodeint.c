@@ -13,59 +13,47 @@
  */
 dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 {
-	/* Pointer to traverse the list */
+/* Déclare un pointeur vers le nouveau nœud et un pointeur temporaire pour parcourir la liste */
 	dlistint_t *new_node, *temp_node = *h;
-	/* Compteur pour suivre la position actuelle dans la liste */
+/* Initialise un compteur pour suivre l'index du nœud actuel */
 	unsigned int count = 0;
+/* Vérifie si le pointeur de tête est NULL */
+	if (h == NULL)
+		return (NULL);	/* Si la tête est NULL, retourne NULL */
 
-	if (h == NULL)	/* Vérifie si la liste est valide */
-		return (NULL);
-
-	if (idx == 0)	/* Si l'index est 0, on ajoute le nœud au début */
-	/* Appelle la fonction pour ajouter au début */
+	/* Si l'index est 0, ajoute le nouveau nœud au début de la liste */
+	if (idx == 0)
+	/* Ajoute le nœud au début de la liste */
 		return (add_dnodeint(h, n));
-
-	/* Parcourt la liste jusqu'à l'index souhaité */
-	/* ou jusqu'à la fin de la liste */
-	/* On s'arrête si on atteint l'index souhaité ou la fin de la liste */
+	/* Parcourt la liste jusqu'à l'index souhaité ou la fin de la liste */
 	while (temp_node && count < idx - 1)
 	{
-		temp_node = temp_node->next;	/* Avance au nœud suivant */
-		/* Incrémente le compteur d'index */
-		count++;
+		temp_node = temp_node->next;	/* Passe au nœud suivant */
+		count++;	/* Incrémente le compteur d'index */
 	}
-
-	if (count == idx - 1 && temp_node)	/* Si on a trouvé l'index souhaité */
+	/* Si on a atteint l'indice précédent et que le nœud est valide */
+	if (count == idx - 1 && temp_node)
 	{
-		if (temp_node->next == NULL)	/* Si on est à la fin de la liste */
-			return (add_dnodeint_end(h, n));	/* Ajoute à la fin */
+/* Si le nœud suivant est NULL, on ajoute le nouveau nœud à la fin de la liste */
+		if (temp_node->next == NULL)
+			return (add_dnodeint_end(h, n));	/* Ajoute le nœud à la fin de la liste */
 
-		/* Crée un nouveau nœud et le lie dans la liste */
-		/* Alloue de la mémoire pour le nouveau nœud */
-	{
-		/* Vérifie si l'allocation de mémoire a réussi */
-		new_node = malloc(sizeof(dlistint_t));
-		if (new_node == NULL)	/* Vérifie si l'allocation a échoué */
-			return (NULL);	/* Retourne NULL si l'allocation échoue */
-		/* Initialise le nouveau nœud */
-		/* Définit la valeur du nouveau nœud */
-		/* Définit le pointeur suivant du nouveau nœud */
+		new_node = malloc(sizeof(dlistint_t));	/* Alloue de la mémoire pour le nouveau nœud */
+		if (new_node == NULL)	/* Vérifie si l'allocation de mémoire a réussi */
+			return (NULL);	/* Retourne NULL si cela a échoué */
+
 		new_node->n = n;	/* Définit la valeur du nouveau nœud */
-		/*Le suivant du nouveau nœud est l'ancien suivant de temp_node */
-		new_node->next = temp_node->next;
-		/* Définit le pointeur précédent du nouveau nœud */
-		new_node->prev = temp_node;
+		new_node->next = temp_node->next;	/* Définit le pointeur suivant du nouveau nœud */
+		new_node->prev = temp_node;	/* Définit le pointeur précédent du nouveau nœud */
 
 		if (temp_node->next)	/* Si le nœud suivant existe */
-		/* Met à jour le pointeur précédent du nœud suivant */
-			/* Définit le pointeur précédent du nœud suivant */
-			/* Met à jour le pointeur précédent du nœud suivant */
+	/* Met à jour le pointeur précédent du nœud suivant */
 			temp_node->next->prev = new_node;
-		/* Met à jour le pointeur suivant de temp_node */
-		temp_node->next = new_node;
+		temp_node->next = new_node;	/* Met à jour le pointeur suivant du nœud actuel */
+	/* Met à jour le pointeur suivant du nœud actuel */
 
 		return (new_node);	/* Retourne l'adresse du nouveau nœud */
 	}
 
-	return (NULL);	/* Retourne NULL si l'index est hors de portée */
+	return (NULL);	/* Retourne NULL si l'index est hors de portée ou si la liste est vide */
 }
