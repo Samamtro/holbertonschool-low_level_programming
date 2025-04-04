@@ -20,8 +20,13 @@ ssize_t read_textfile(const char *filename, size_t letters)
 
 	if (filename == NULL)	/* Vérifie si le nom de fichier est NULL */
 		return (0);	/* Retourne 0 si le nom de fichier est NULL */
-
-	fd = open(filename, O_RDONLY);	/* Ouvre le fichier en mode lecture seule */
+	/* Ouvre le fichier en mode lecture seule */
+	/*
+	 * O_RDONLY: Ouvre le fichier en mode lecture seule
+	 * 0600: Autorise uniquement le propriétaire à lire
+	 * open: Ouvre le fichier
+	 */
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)	/* Vérifie si l'ouverture du fichier a échoué */
 		return (0);	/* Retourne 0 si l'ouverture a échoué */
 	/* Alloue de la mémoire pour le tampon */
