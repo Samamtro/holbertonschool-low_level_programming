@@ -42,13 +42,21 @@ int create_file(const char *filename, char *text_content)
 	nletters = 0;	/* Initialise le nombre de caractères à écrire à 0 */
 	while (text_content[nletters] != '\0')
 		nletters++;	/* Incrémente le compteur de caractères */
+	/*
+	 * Compte le nombre de caracteres dans le contenu du texte
+	 * Utilise une boucle while pour compter les caractères jusqu'à '\0'
+	 * nletters: Nombre de caractères à écrire
+	 * nwrite: Nombre de caractères écrits
+	 * write: Écrit le contenu du texte dans le fichier
+	 */
 	nwrite = write(fd, text_content, nletters);
 
-	if (nwrite == -1)
+	if (nwrite == -1)	/* Vérifie si l'écriture a échoué */
 	{
-		close(fd);
-		return (-1);
+		close(fd);	/* Ferme le descripteur de fichier */
+
+		return (-1);	/* Retourne -1 si l'écriture a échoué */
 	}
-	close(fd);
-	return (1);
+	close(fd);	/* Ferme le descripteur de fichier */
+	return (1);	/* Retourne 1 si l'écriture a réussi */
 }
