@@ -3,7 +3,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "main.h"
-
 /**
  * read_textfile - Reads a text file and prints it to the POSIX standard output
  * @filename: The name of the file to read
@@ -42,11 +41,8 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	/*
 	 * Écrit le contenu du tampon sur la sortie standard
 	 * Utilise write pour écrire le contenu du tampon
-	 * Le descripteur de fichier STDOUT_FILENO est utilisé pour la sortie
-	 * standard
-	 * Le nombre de caractères à écrire est le même que celui lu
+	 * Écrit le contenu du tampon sur la sortie standard
 	 */
-	/* Écrit le contenu du tampon sur la sortie standard */
 	n = write(STDOUT_FILENO, buffer, n);
 	if (n == -1)	/* Vérifie si l'écriture a échoué */
 	{
@@ -54,7 +50,7 @@ ssize_t read_textfile(const char *filename, size_t letters)
 		close(fd);	/* Ferme le descripteur de fichier */
 		return (0);	/* Retourne 0 si l'écriture a échoué */
 	}
-	free(buffer);	/* Libère la mémoire allouée pour le tampon */
-	close(fd);	/* Ferme le descripteur de fichier */
-	return (n);	/* Retourne le nombre de caractères écrits */
+	free(buffer);
+	close(fd);
+	return (n);
 }
