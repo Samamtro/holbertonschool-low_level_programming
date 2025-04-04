@@ -15,11 +15,13 @@
 int append_text_to_file(const char *filename, char *text_content)
 {
 	int fd;	/* Descripteur de fichier */
+
 	/* Nombre de caractères à écrire et nombre de caractères écrits */
 	ssize_t nletters, nwrite;
 
 	if (filename == NULL)	/* Vérifie si le nom de fichier est NULL */
 		return (-1);	/* Retourne -1 si le nom de fichier est NULL */
+
 	/* Ouvre le fichier en mode écriture et ajout */
 	/*
 	 * O_WRONLY: Ouvre le fichier en mode écriture
@@ -34,6 +36,7 @@ int append_text_to_file(const char *filename, char *text_content)
 		return (1);	/* Retourne 1 si le contenu est NULL */
 	}
 	nletters = 0;	/* Initialise le nombre de caractères à écrire à 0 */
+
 	/* Compte le nombre de caractères dans le contenu du texte */
 	/*
 	 * Utilise une boucle while pour compter les caractères jusqu'à '\0'
@@ -43,6 +46,14 @@ int append_text_to_file(const char *filename, char *text_content)
 	 */
 	while (text_content[nletters] != '\0')
 		nletters++;	/* Incrémente le compteur de caractères */
+
+	/* Écrit le contenu du texte dans le fichier */
+	/*
+	 * Utilise write pour écrire le contenu du texte
+	 * nwrite: Nombre de caractères écrits
+	 * text_content: Contenu du texte à écrire
+	 * nletters: Nombre de caractères à écrire
+	 */
 	nwrite = write(fd, text_content, nletters);
 
 	if (nwrite == -1)	/* Vérifie si l'écriture a échoué */
