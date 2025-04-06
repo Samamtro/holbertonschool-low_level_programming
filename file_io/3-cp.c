@@ -45,6 +45,7 @@ void _cp(char *file_from, char *file_to)
 			total += numwrote;
 		}
 	}
+
 	if (numread == -1)
 		_errexit("Error: Can't read from file %s\n", file_from, 98);
 
@@ -53,6 +54,7 @@ void _cp(char *file_from, char *file_to)
 		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd1);
 		exit(100);
 	}
+
 	if (close(fd2) == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd2);
@@ -75,6 +77,6 @@ int main(int argc, char *argv[])
 	}
 
 	_cp(argv[1], argv[2]);
+
 	return (0);
 }
-
