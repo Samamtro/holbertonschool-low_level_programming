@@ -5,7 +5,7 @@
 #include "main.h"
 
 /**
- * _errexit - print error message and exit
+* _errexit - print error message and exit
  * @str: err message as string
  * @file: file name as string
  * @code: exit code
@@ -59,7 +59,7 @@ void _cp(char *file_from, char *file_to)
 	}
 	if (close(fd1) == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd2);
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd1);
 		exit(100);
 	}
 }
@@ -76,7 +76,6 @@ int main(int argc, char *argv[])
 		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
-
 	_cp(argv[1], argv[2]);
 
 	return (0);
