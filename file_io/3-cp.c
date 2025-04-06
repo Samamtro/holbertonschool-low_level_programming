@@ -12,7 +12,7 @@
  * Return: 1 on success, -1 on failure
  * Description: This function copies the content of one file to another
  */
-int cp(const char *file_from, const char *file_to)
+int copy_file(const char *file_from, const char *file_to)
 {
 	int fd_from, fd_to, bytes_read, bytes_written;
 	char buffer[1024];
@@ -33,7 +33,7 @@ int cp(const char *file_from, const char *file_to)
 	while ((bytes_read = read(fd_from, buffer, sizeof(buffer))) > 0)
 	{
 		bytes_written = write(fd_to, buffer, bytes_read);
-		if (bytes_written != bytes_read)
+		if (bytes_written == -1 || bytes_written != bytes_read)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to file %s\n", file_to);
 			close(fd_from);
@@ -48,8 +48,11 @@ int cp(const char *file_from, const char *file_to)
 		close(fd_to);
 		return (-1);
 	}
-	close(fd_from);
-	close(fd_to);
+	if (close(fd_from) == -1)
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from);
+	if (close(fd_to) == -1)
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to);
+
 	return (0);
 }
 
@@ -68,7 +71,7 @@ int main(int argc, char *argv[])
 		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		return (97);
 	}
-	if (cp(argv[1], argv[2]) == -1)
+	if (copy_file(argv[1], argv[2]) == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Operation failed\n");
 		return (98);
