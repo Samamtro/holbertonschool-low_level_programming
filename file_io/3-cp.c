@@ -5,105 +5,53 @@
 #include "main.h"
 
 /**
- * _errexit - affiche un message d'erreur et quitte
- * @format: chaîne de format (ex: "Error: Can't read from file %s\n")
- * @file: nom du fichier concerné
- * @code: code de sortie
+ * main - Copies content of file to another
+ *
+ * @argc: int
+ *
+ * @argv: double pointer
+ *
+ * Return: Copy of file
  */
-void _errexit(const char *format, const char *file, int code)
+int main(int argc, char **argv)
 {
-	dprintf(STDERR_FILENO, format, file);
-	exit(code);
-}
-
-/**
- * _cp - copie le contenu d'un fichier dans un autre
- * @file_from: fichier source
- * @file_to: fichier destination
- */
-void _cp(char *file_from, char *file_to)
-{
-	int fd1, fd2, numread, numwrote, total;
+	int fd, fd2, filecheck;
 	char buffer[1024];
-	if (!file_from || !file_to)
-		_errexit("Error: Invalid file name\n", "", 97);
 
-	fd1 = open(file_from, O_RDONLY);
-	if (fd1 == -1)
-		_errexit("Error: Can't read from file %s\n", file_from, 98);
-
-	fd2 = open(file_to, O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	if (fd2 == -1)
-		_errexit("Error: Can't write to %s\n", file_to, 99);
-
-	while ((numread = read(fd1, buffer, sizeof(buffer))) > 0)
+	if (argc != 3)
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n"), exit(97);
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
 	{
-		total = 0;
-		while (total < numread)
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+		exit(98);
+	}
+	fd2 = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (fd2 == -1)
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]), exit(99);
+	while ((filecheck = read(fd, buffer, 1024)) > 0)
+	{
+		if (filecheck == -1)
 		{
-			numwrote = write(fd2, buffer + total, numread - total);
-			if (numwrote == -1)
-				_errexit("Error: Can't write to %s\n", file_to, 99);
-			total += numwrote;
+			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+			exit(98);
+		}
+		filecheck = write(fd2, buffer, filecheck);
+		if (filecheck == -1)
+		{
+			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+			exit(99);
 		}
 	}
-
-	if (numread == -1)
-		_errexit("Error: Can't read from file %s\n", file_from, 98);
-
-	if (close(fd1) == -1)
+	if (filecheck == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd1);
-		exit(100);
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+		exit(98);
 	}
-
+	if (close(fd) == -1)
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd), exit(100);
 	if (close(fd2) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd2);
-		exit(100);
-	}
-}
-
-/**
- * main - point d'entrée, copie un fichier dans un autre
- * @argc: nombre d'arguments
- * @argv: tableau des arguments
- * Return: 0 en cas de succès, code d'erreur sinon
- */
-int main(int argc, char *argv[])
-{
-	if (argc != 3)
-	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-		exit(97);
-	}
-	if (argv[1] == NULL || argv[2] == NULL)
-	{
-		dprintf(STDERR_FILENO, "Error: Invalid file name\n");
-		exit(97);
-	}
-	if (argv[1] == argv[2])
-	{
-		dprintf(STDERR_FILENO, "Error: Can't copy file to itself\n");
-		exit(98);
-	}
-	if (access(argv[1], F_OK) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		exit(98);
-	}
-	if (access(argv[2], W_OK) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-		exit(99);
-	}
-	if (access(argv[1], R_OK) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		exit(98);
-	}
-
-	_cp(argv[1], argv[2]);
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd2), exit(100);
 
 	return (0);
 }
