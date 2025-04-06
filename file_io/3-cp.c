@@ -25,6 +25,8 @@ void _cp(char *file_from, char *file_to)
 {
 	int fd1, fd2, numread, numwrote, total;
 	char buffer[1024];
+	if (!file_from || !file_to)
+		_errexit("Error: Invalid file name\n", "", 97);
 
 	fd1 = open(file_from, O_RDONLY);
 	if (fd1 == -1)
@@ -74,6 +76,31 @@ int main(int argc, char *argv[])
 	{
 		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
+	}
+	if (argv[1] == NULL || argv[2] == NULL)
+	{
+		dprintf(STDERR_FILENO, "Error: Invalid file name\n");
+		exit(97);
+	}
+	if (argv[1] == argv[2])
+	{
+		dprintf(STDERR_FILENO, "Error: Can't copy file to itself\n");
+		exit(98);
+	}
+	if (access(argv[1], F_OK) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+		exit(98);
+	}
+	if (access(argv[2], W_OK) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+		exit(99);
+	}
+	if (access(argv[1], R_OK) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+		exit(98);
 	}
 
 	_cp(argv[1], argv[2]);
