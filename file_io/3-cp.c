@@ -6,29 +6,27 @@
 
 /**
  * cp - Copies the content of a file to another file
- * @file_from: The source file
- * @file_to: The destination file
+ * @file_from: The source file to copy from
+ * @file_to: The destination file to copy to
  *
- * Return: 0 on success, -1 on failure
- * Description: This function copies the content of one file to another.
+ * Return: 1 on success, -1 on failure
+ * Description: This function copies the content of one file to another
  */
 int cp(const char *file_from, const char *file_to)
 {
-	int fd_from, fd_to;	/* File descriptors for source and destination files */
-	char buffer[1024];	/* Buffer to hold data during copying */
-	ssize_t bytes_read, bytes_written;	/* Number of bytes read and written */
+	int fd_from, fd_to, bytes_read, bytes_written;
+	char buffer[1024];
 
-	/* Open the source file in read-only mode */
 	fd_from = open(file_from, O_RDONLY);
 	if (fd_from == -1)
 	{
-		perror("Error opening source file");
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
 		return (-1);
 	}
-	fd_to = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd_to = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (fd_to == -1)
 	{
-		perror("Error opening destination file");
+		dprintf(STDERR_FILENO, "Error: Can't write to file %s\n", file_to);
 		close(fd_from);
 		return (-1);
 	}
@@ -37,7 +35,7 @@ int cp(const char *file_from, const char *file_to)
 		bytes_written = write(fd_to, buffer, bytes_read);
 		if (bytes_written != bytes_read)
 		{
-			perror("Error writing to destination file");
+			dprintf(STDERR_FILENO, "Error: Can't write to file %s\n", file_to);
 			close(fd_from);
 			close(fd_to);
 			return (-1);
@@ -45,15 +43,35 @@ int cp(const char *file_from, const char *file_to)
 	}
 	if (bytes_read == -1)
 	{
-		perror("Error reading from source file");
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
 		close(fd_from);
 		close(fd_to);
 		return (-1);
 	}
 	close(fd_from);
 	close(fd_to);
-	return (0); 
+	return (0);
 }
 
-
-
+/**
+ * main - Entry point for the program
+ * @argc: Number of arguments
+ * @argv: Array of argument strings
+ *
+ * Return: 0 on success, or an error code on failure
+ * Description: This function validates arguments and calls cp to copy files.
+ */
+int main(int argc, char *argv[])
+{
+	if (argc != 3)
+	{
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+		return (97);
+	}
+	if (cp(argv[1], argv[2]) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Operation failed\n");
+		return (98);
+	}
+	return (0);
+}
