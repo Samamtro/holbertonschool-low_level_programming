@@ -26,6 +26,7 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 	/* Ajoute le nœud au début de la liste */
 		return (add_dnodeint(h, n));
 	/* Parcourt la liste jusqu'à l'index souhaité ou la fin de la liste */
+	/* On parcourt la liste jusqu'à l'index souhaité ou la fin de la liste */
 	while (temp_node && count < idx - 1)
 	{
 		temp_node = temp_node->next;	/* Passe au nœud suivant */

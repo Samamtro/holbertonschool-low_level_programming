@@ -50,9 +50,9 @@ int cp(const char *file_from, const char *file_to)
 		close(fd_to);
 		return (-1);
 	}
-	close(fd_from); /* Close the source file descriptor */
-	close(fd_to); /* Close the destination file descriptor */
-	return (0); /* Return 0 on success */
+	close(fd_from);
+	close(fd_to);
+	return (0); 
 }
 
 
