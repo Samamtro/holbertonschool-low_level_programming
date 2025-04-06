@@ -5,79 +5,79 @@
 #include "main.h"
 
 /**
- * copy_file - Copies the content of a file to another file
- * @file_from: The source file to copy from
- * @file_to: The destination file to copy to
- *
- * Return: 0 on success, -1 on failure
- * Description: Opens the source file for reading and the destination file
- * for writing. Reads data from the source file in chunks and writes it
- * to the destination file. Handles errors for file operations and closes
- * file descriptors properly.
+ * _errexit - print error message and exit
+ * @str: err message as string
+ * @file: file name as string
+ * @code: exit code
+ * Return: void
  */
-int copy_file(const char *file_from, const char *file_to)
+void _errexit(char *str, char *file, int code)
 {
-	int fd_from, fd_to, bytes_read, bytes_written;
-	char buffer[1024];
-
-	fd_from = open(file_from, O_RDONLY);
-	if (fd_from == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
-		return (-1);
-	}
-	fd_to = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (fd_to == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to file %s\n", file_to);
-		close(fd_from);
-		return (-1);
-	}
-	while ((bytes_read = read(fd_from, buffer, sizeof(buffer))) > 0)
-	{
-		bytes_written = write(fd_to, buffer, bytes_read);
-		if (bytes_written == -1 || bytes_written != bytes_read)
-		{
-			dprintf(STDERR_FILENO, "Error: Can't write to file %s\n", file_to);
-			close(fd_from);
-			close(fd_to);
-			return (-1);
-		}
-	}
-	if (bytes_read == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
-		close(fd_from);
-		close(fd_to);
-		return (-1);
-	}
-
-	if (close(fd_from) == -1)
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from);
-	if (close(fd_to) == -1)
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to);
-	return (0);
+	dprintf(STDERR_FILENO, str, file);
+	exit(code);
 }
 
 /**
- * main - Entry point for the program
- * @argc: Number of arguments
- * @argv: Array of argument strings
+ * _cp - copy source file to destination file
+ * @file_from: source file
+ * @file_to: destination file
  *
- * Return: 0 on success, or an error code on failure
- * Description: This function validates arguments and calls cp to copy files.
+ * Return: void
+ */
+void _cp(char *file_from, char *file_to)
+{
+	int fd1, fd2, numread, numwrote;
+	char buffer[1024];
+
+	fd1 = open(file_from, O_RDONLY);
+	if (fd1 == -1)
+		_errexit("Error: Can't read from file %s\n", file_from, 98);
+
+	fd2 = open(file_to, O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (fd2 == -1)
+		_errexit("Error: Can't write to %s\n", file_to, 99);
+
+	numread = 1024;
+	while (numread == 1024)
+	{
+		numread = read(fd1, buffer, 1024);
+		if (numread == -1)
+			_errexit("Error: Can't read from file %s\n", file_from, 98);
+
+		numwrote = write(fd2, buffer, numread);
+
+		if (numwrote == -1)
+			_errexit("Error: Can't write to %s\n", file_to, 99);
+	}
+
+	if (numread == -1)
+		_errexit("Error: Can't read from file %s\n", file_from, 98);
+	if (close(fd2) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd2);
+		exit(100);
+	}
+	if (close(fd1) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd2);
+		exit(100);
+	}
+}
+/**
+ *main - copies a file to another file
+ *@argc: number of arguments passed to function
+ *@argv: array containing arguments
+ *Return: 0 on success
  */
 int main(int argc, char *argv[])
 {
 	if (argc != 3)
 	{
 		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-		return (97);
+		exit(97);
 	}
-	if (copy_file(argv[1], argv[2]) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Operation failed\n");
-		return (98);
-	}
+
+	_cp(argv[1], argv[2]);
+
 	return (0);
 }
