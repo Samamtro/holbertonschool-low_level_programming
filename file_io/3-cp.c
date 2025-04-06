@@ -5,28 +5,25 @@
 #include "main.h"
 
 /**
-* _errexit - print error message and exit
- * @str: err message as string
- * @file: file name as string
- * @code: exit code
- * Return: void
+ * _errexit - affiche un message d'erreur et quitte
+ * @format: chaîne de format (ex: "Error: Can't read from file %s\n")
+ * @file: nom du fichier concerné
+ * @code: code de sortie
  */
-void _errexit(char *str, char *file, int code)
+void _errexit(const char *format, const char *file, int code)
 {
-	dprintf(STDERR_FILENO, str, file);
+	dprintf(STDERR_FILENO, format, file);
 	exit(code);
 }
 
 /**
- * _cp - copy source file to destination file
- * @file_from: source file
- * @file_to: destination file
- *
- * Return: void
+ * _cp - copie le contenu d'un fichier dans un autre
+ * @file_from: fichier source
+ * @file_to: fichier destination
  */
 void _cp(char *file_from, char *file_to)
 {
-	int fd1, fd2, numread, numwrote;
+	int fd1, fd2, numread, numwrote, total;
 	char buffer[1024];
 
 	fd1 = open(file_from, O_RDONLY);
@@ -37,37 +34,37 @@ void _cp(char *file_from, char *file_to)
 	if (fd2 == -1)
 		_errexit("Error: Can't write to %s\n", file_to, 99);
 
-	numread = 1024;
-	while (numread == 1024)
+	while ((numread = read(fd1, buffer, sizeof(buffer))) > 0)
 	{
-		numread = read(fd1, buffer, 1024);
-		if (numread == -1)
-			_errexit("Error: Can't read from file %s\n", file_from, 98);
-
-		numwrote = write(fd2, buffer, numread);
-
-		if (numwrote == -1)
-			_errexit("Error: Can't write to %s\n", file_to, 99);
+		total = 0;
+		while (total < numread)
+		{
+			numwrote = write(fd2, buffer + total, numread - total);
+			if (numwrote == -1)
+				_errexit("Error: Can't write to %s\n", file_to, 99);
+			total += numwrote;
+		}
 	}
-
 	if (numread == -1)
 		_errexit("Error: Can't read from file %s\n", file_from, 98);
-	if (close(fd2) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd2);
-		exit(100);
-	}
+
 	if (close(fd1) == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd1);
 		exit(100);
 	}
+	if (close(fd2) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd2);
+		exit(100);
+	}
 }
+
 /**
- *main - copies a file to another file
- *@argc: number of arguments passed to function
- *@argv: array containing arguments
- *Return: 0 on success
+ * main - point d'entrée, copie un fichier dans un autre
+ * @argc: nombre d'arguments
+ * @argv: tableau des arguments
+ * Return: 0 en cas de succès, code d'erreur sinon
  */
 int main(int argc, char *argv[])
 {
@@ -76,7 +73,8 @@ int main(int argc, char *argv[])
 		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
-	_cp(argv[1], argv[2]);
 
+	_cp(argv[1], argv[2]);
 	return (0);
 }
+
