@@ -5,12 +5,15 @@
 #include "main.h"
 
 /**
- * cp - Copies the content of a file to another file
+ * copy_file - Copies the content of a file to another file
  * @file_from: The source file to copy from
  * @file_to: The destination file to copy to
  *
- * Return: 1 on success, -1 on failure
- * Description: This function copies the content of one file to another
+ * Return: 0 on success, -1 on failure
+ * Description: Opens the source file for reading and the destination file
+ * for writing. Reads data from the source file in chunks and writes it
+ * to the destination file. Handles errors for file operations and closes
+ * file descriptors properly.
  */
 int copy_file(const char *file_from, const char *file_to)
 {
@@ -48,11 +51,11 @@ int copy_file(const char *file_from, const char *file_to)
 		close(fd_to);
 		return (-1);
 	}
+
 	if (close(fd_from) == -1)
 		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from);
 	if (close(fd_to) == -1)
 		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to);
-
 	return (0);
 }
 
